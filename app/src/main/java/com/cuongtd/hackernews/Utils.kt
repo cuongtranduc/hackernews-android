@@ -1,13 +1,7 @@
 package com.cuongtd.hackernews
 
-import android.text.format.DateUtils
+import com.github.marlonlom.utilities.timeago.TimeAgo
 import java.text.SimpleDateFormat
-import com.github.marlonlom.utilities.timeago.TimeAgo;
-import java.time.ZoneOffset
-
-import java.time.LocalDateTime
-
-import java.time.format.DateTimeFormatter
 
 
 class Utils {

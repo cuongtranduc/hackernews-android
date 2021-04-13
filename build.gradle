@@ -6,6 +6,7 @@ buildscript {
         retrofit_version = "2.9.0"
         compose_runtime_version = "1.0.0-beta04"
         nav_compose_version = "1.0.0-alpha09"
+        room_version = "2.2.6"
     }
     repositories {
         google()

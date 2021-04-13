@@ -1,3 +1,5 @@
+package com.cuongtd.hackernews.model
+
 import com.google.gson.annotations.SerializedName
 
 data class Title (

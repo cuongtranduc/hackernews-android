@@ -1,19 +1,16 @@
 package com.cuongtd.hackernews.repository
 
-import Result
-import Story
-import android.graphics.Movie
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.LiveData
+import androidx.room.Room
+import com.cuongtd.hackernews.model.Story
+import com.cuongtd.hackernews.model.room.Story as StoryEntity
+import com.cuongtd.hackernews.model.Result
+import com.cuongtd.hackernews.model.room.AppDatabase
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import android.R
-import android.util.Log
-import timber.log.Timber
 
 
 interface ApiService {
@@ -39,9 +36,15 @@ object RetrofitBuilder {
 }
 
 
-
-class StoryRepository {
+class StoryRepository(context: Context) {
     private val apiService = RetrofitBuilder.apiService
+    val db = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java, "story"
+    )
+//        .allowMainThreadQueries()
+        .build()
+    val storyDao = db.storyDao()
 
     fun getStories(updateStories: (List<Story>) -> Unit) {
         val mlc: Call<Result> = apiService.getStories()
@@ -69,5 +72,21 @@ class StoryRepository {
             override fun onFailure(call: Call<Result>?, t: Throwable?) {
             }
         })
+    }
+
+    fun getAllFavoriteStories(): LiveData<List<StoryEntity>> {
+        return storyDao.getAll()
+    }
+
+    fun getSingle(id: String): LiveData<StoryEntity>? {
+        return storyDao.getSingle(id)
+    }
+
+    fun addFavoriteStory(story: StoryEntity) {
+        storyDao.insert(story)
+    }
+
+    fun deleteFavoriteStory(story: StoryEntity) {
+        storyDao.delete(story)
     }
 }

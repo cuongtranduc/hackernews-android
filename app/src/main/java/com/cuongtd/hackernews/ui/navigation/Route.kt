@@ -2,7 +2,6 @@ package com.cuongtd.hackernews.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.KEY_ROUTE
@@ -40,7 +39,7 @@ sealed class Route(
         Route(
             "Favorite",
             R.drawable.ic_favorite_filled,
-            { backStackEntry, viewModel, navController -> FavoriteCompose() })
+            { backStackEntry, viewModel, navController -> FavoriteCompose(viewModel, navController) })
 
     object Setting :
         Route(

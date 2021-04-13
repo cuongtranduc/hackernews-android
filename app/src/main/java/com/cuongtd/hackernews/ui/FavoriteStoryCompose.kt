@@ -10,19 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.navigate
-import com.cuongtd.hackernews.Utils
-import com.cuongtd.hackernews.model.Story
+import com.cuongtd.hackernews.model.room.Story
 import com.cuongtd.hackernews.ui.theme.LocalPaddings
-import java.net.URI
-
-fun getDomainName(url: String): String {
-    val uri = URI(url)
-    val domain = uri.host
-    return if (domain.startsWith("www.")) domain.substring(4) else domain
-}
 
 @Composable
-fun StoryCompose(story: Story) {
+fun FavoriteStoryCompose(story: Story) {
     val navController = AppNavController.current
     Column(modifier = Modifier.clickable {
         navController.navigate("Content?objectID=${story.objectID}/url=${story.url}/title=${story.title}")
@@ -38,25 +30,25 @@ fun StoryCompose(story: Story) {
                 style = MaterialTheme.typography.caption,
                 color = MaterialTheme.colors.onSurface,
             )
-            Row(modifier = Modifier.padding(top = 2.dp)) {
-                Text(
-                    text = story.points.toString() + " points",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.secondary,
-                    modifier = Modifier.padding(end = LocalPaddings.current.smallPadding)
-                )
-                Text(
-                    text = story.numComments.toString() + " comments",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.secondary,
-                    modifier = Modifier.padding(end = 5.dp)
-                )
-                Text(
-                    text = Utils.formatTimeAgo(story.createdAt),
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.secondary
-                )
-            }
+//            Row(modifier = Modifier.padding(top = 2.dp)) {
+//                Text(
+//                    text = story.points.toString() + " points",
+//                    style = MaterialTheme.typography.body1,
+//                    color = MaterialTheme.colors.secondary,
+//                    modifier = Modifier.padding(end = LocalPaddings.current.smallPadding)
+//                )
+//                Text(
+//                    text = story.numComments.toString() + " comments",
+//                    style = MaterialTheme.typography.body1,
+//                    color = MaterialTheme.colors.secondary,
+//                    modifier = Modifier.padding(end = 5.dp)
+//                )
+//                Text(
+//                    text = Utils.formatTimeAgo(story.createdAt),
+//                    style = MaterialTheme.typography.body1,
+//                    color = MaterialTheme.colors.secondary
+//                )
+//            }
             Text(
                 text = "Source: ${getDomainName(story.url)}",
                 style = MaterialTheme.typography.body1,

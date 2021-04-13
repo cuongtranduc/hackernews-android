@@ -1,4 +1,4 @@
-package com.cuongtd.hackernews.ui
+package com.cuongtd.hackernews.ui.story
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,14 +8,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.navigate
 import com.cuongtd.hackernews.Utils
 import com.cuongtd.hackernews.model.Story
+import com.cuongtd.hackernews.ui.AppNavController
 import com.cuongtd.hackernews.ui.theme.LocalPaddings
 import java.net.URI
 
-fun getDomainName(url: String): String {
+fun getDomainName(url: String?): String {
+    if (url == null) return ""
     val uri = URI(url)
     val domain = uri.host
     return if (domain.startsWith("www.")) domain.substring(4) else domain

@@ -21,19 +21,19 @@ sealed class Route(
         Route(
             "Home",
             R.drawable.ic_home,
-            { backStackEntry, viewModel, navController -> HomeCompose(viewModel, navController) })
+            { backStackEntry, viewModel, navController -> HomeCompose(viewModel) })
 
     object New :
         Route(
             "New",
             R.drawable.ic_new,
-            { backStackEntry, viewModel, navController -> NewCompose(viewModel, navController) })
+            { backStackEntry, viewModel, navController -> NewCompose(viewModel) })
 
     object Best :
         Route(
             "Best",
             R.drawable.ic_star_filled,
-            { backStackEntry, viewModel, navController -> HomeCompose(viewModel, navController) })
+            { backStackEntry, viewModel, navController -> HomeCompose(viewModel) })
 
     object Favorite :
         Route(
@@ -59,5 +59,5 @@ val Routes = listOf(
 @Composable
 public fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+    return navBackStackEntry?.arguments?.getString(KEY_ROUTE) ?: ""
 }

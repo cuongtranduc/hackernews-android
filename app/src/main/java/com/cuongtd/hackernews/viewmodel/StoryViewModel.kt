@@ -1,10 +1,11 @@
 package com.cuongtd.hackernews.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.*
-import androidx.room.Room
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cuongtd.hackernews.model.Story
-import com.cuongtd.hackernews.model.room.AppDatabase
 import com.cuongtd.hackernews.repository.StoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,16 +1,18 @@
 package com.cuongtd.hackernews.repository
 
 import android.content.Context
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import com.cuongtd.hackernews.model.Story
-import com.cuongtd.hackernews.model.room.Story as StoryEntity
 import com.cuongtd.hackernews.model.Result
+import com.cuongtd.hackernews.model.Story
 import com.cuongtd.hackernews.model.room.AppDatabase
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import com.cuongtd.hackernews.model.room.Story as StoryEntity
 
 
 interface ApiService {

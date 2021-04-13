@@ -8,9 +8,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.navigate
 import com.cuongtd.hackernews.model.room.Story
+import com.cuongtd.hackernews.ui.story.getDomainName
 import com.cuongtd.hackernews.ui.theme.LocalPaddings
 
 @Composable
@@ -30,25 +30,6 @@ fun FavoriteStoryCompose(story: Story) {
                 style = MaterialTheme.typography.caption,
                 color = MaterialTheme.colors.onSurface,
             )
-//            Row(modifier = Modifier.padding(top = 2.dp)) {
-//                Text(
-//                    text = story.points.toString() + " points",
-//                    style = MaterialTheme.typography.body1,
-//                    color = MaterialTheme.colors.secondary,
-//                    modifier = Modifier.padding(end = LocalPaddings.current.smallPadding)
-//                )
-//                Text(
-//                    text = story.numComments.toString() + " comments",
-//                    style = MaterialTheme.typography.body1,
-//                    color = MaterialTheme.colors.secondary,
-//                    modifier = Modifier.padding(end = 5.dp)
-//                )
-//                Text(
-//                    text = Utils.formatTimeAgo(story.createdAt),
-//                    style = MaterialTheme.typography.body1,
-//                    color = MaterialTheme.colors.secondary
-//                )
-//            }
             Text(
                 text = "Source: ${getDomainName(story.url)}",
                 style = MaterialTheme.typography.body1,

@@ -57,7 +57,7 @@ fun ContentTopAppBar(currentRoute: String?, navController: NavHostController) {
         title = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.Start
             ) {
                 Text(
                     text = navController.currentBackStackEntry?.arguments?.getString("url")

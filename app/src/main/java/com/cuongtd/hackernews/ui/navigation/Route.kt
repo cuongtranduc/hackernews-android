@@ -2,6 +2,7 @@ package com.cuongtd.hackernews.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.KEY_ROUTE
@@ -10,36 +11,43 @@ import com.cuongtd.hackernews.R
 import com.cuongtd.hackernews.ui.FavoriteCompose
 import com.cuongtd.hackernews.ui.HomeCompose
 import com.cuongtd.hackernews.ui.SettingCompose
-import com.cuongtd.hackernews.viewmodel.StoryViewModel
+import com.cuongtd.hackernews.viewmodel.FavoriteViewModel
+import com.cuongtd.hackernews.viewmodel.NewStoryViewModel
+import com.cuongtd.hackernews.viewmodel.TopStoryViewModel
 
 sealed class Route(
     val route: String,
     val icon: Int,
-    val content: @Composable (backStackEntry: NavBackStackEntry, viewModel: StoryViewModel, navController: NavHostController) -> Unit
+    val content: @Composable (backStackEntry: NavBackStackEntry, viewModel: ViewModel, navController: NavHostController) -> Unit
 ) {
     object Home :
         Route(
             "Home",
             R.drawable.ic_home,
-            { backStackEntry, viewModel, navController -> HomeCompose(viewModel) })
+            { backStackEntry, viewModel, navController -> HomeCompose(viewModel as NewStoryViewModel) })
 
-    object New :
+    object Top :
         Route(
-            "New",
+            "Top",
             R.drawable.ic_new,
-            { backStackEntry, viewModel, navController -> NewCompose(viewModel) })
+            { backStackEntry, viewModel, navController -> TopCompose(viewModel as TopStoryViewModel) })
 
-    object Best :
-        Route(
-            "Best",
-            R.drawable.ic_star_filled,
-            { backStackEntry, viewModel, navController -> HomeCompose(viewModel) })
+//    object Best :
+//        Route(
+//            "Best",
+//            R.drawable.ic_star_filled,
+//            { backStackEntry, viewModel, navController -> HomeCompose() })
 
     object Favorite :
         Route(
             "Favorite",
             R.drawable.ic_favorite_filled,
-            { backStackEntry, viewModel, navController -> FavoriteCompose(viewModel, navController) })
+            { backStackEntry, viewModel, navController ->
+                FavoriteCompose(
+                    viewModel as FavoriteViewModel,
+                    navController
+                )
+            })
 
     object Setting :
         Route(
@@ -50,7 +58,7 @@ sealed class Route(
 
 val Routes = listOf(
     Route.Home,
-    Route.New,
+    Route.Top,
 //    Route.Best,
     Route.Favorite,
     Route.Setting,

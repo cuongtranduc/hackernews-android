@@ -12,15 +12,16 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 import com.cuongtd.hackernews.model.room.Story as StoryEntity
 
 
 interface ApiService {
-    @GET("search_by_date?tags=story")
-    fun getStories(): Call<Result>
+    @GET("search_by_date?tags=story&")
+    fun getNewStories(@Query("page") page: String): Call<Result>
 
-    @GET("search?tags=front_page")
-    fun getTopStories(): Call<Result>
+    @GET("search?tags=front_page&")
+    fun getTopStories(@Query("page") page: String): Call<Result>
 }
 
 object RetrofitBuilder {
@@ -48,8 +49,8 @@ class StoryRepository(context: Context) {
         .build()
     val storyDao = db.storyDao()
 
-    fun getStories(updateStories: (List<Story>) -> Unit) {
-        val mlc: Call<Result> = apiService.getStories()
+    fun getNewStories(updateStories: (List<Story>) -> Unit, page: Int) {
+        val mlc: Call<Result> = apiService.getNewStories(page.toString())
         mlc.enqueue(object : Callback<Result> {
             override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
                 if (response?.body() != null) {
@@ -62,8 +63,8 @@ class StoryRepository(context: Context) {
         })
     }
 
-    fun getTopStories(updateStories: (List<Story>) -> Unit) {
-        val mlc: Call<Result> = apiService.getTopStories()
+    fun getTopStories(updateStories: (List<Story>) -> Unit, page: Int) {
+        val mlc: Call<Result> = apiService.getTopStories(page.toString())
         mlc.enqueue(object : Callback<Result> {
             override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
                 if (response?.body() != null) {

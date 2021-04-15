@@ -23,11 +23,11 @@ fun StoryListCompose(
     disableLoadingMore: Boolean,
     isLoadingMore: Boolean
 ) {
-    val stories: List<Story> by stories.observeAsState(listOf())
+    val stories: List<Story>? by stories.observeAsState()
     val listState = rememberLazyListState()
 
     //TODO: fixbug loading
-    if (stories.isEmpty()) {
+    if (stories!!.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -41,9 +41,9 @@ fun StoryListCompose(
         }
     } else {
         LazyColumn(state = listState, horizontalAlignment = Alignment.CenterHorizontally) {
-            itemsIndexed(items = stories) { index, story ->
+            itemsIndexed(items = stories!!) { index, story ->
                 StoryCompose(story)
-                if (index == stories.lastIndex && !disableLoadingMore && !isLoadingMore) {
+                if (index == stories!!.lastIndex && !disableLoadingMore && !isLoadingMore) {
                     getTopStories()
                     CircularProgressIndicator(
                         modifier = Modifier

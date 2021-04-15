@@ -6,6 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
+import com.cuongtd.hackernews.ui.FavoriteCompose
+import com.cuongtd.hackernews.ui.FavoriteStoryCompose
+import com.cuongtd.hackernews.ui.HomeCompose
 import com.cuongtd.hackernews.ui.screens.ContentCompose
 import com.cuongtd.hackernews.viewmodel.FavoriteViewModel
 import com.cuongtd.hackernews.viewmodel.NewStoryViewModel
@@ -20,17 +23,14 @@ fun AppNavigation(
     val topStoryViewModel = TopStoryViewModel(context)
     val newStoryViewModel = NewStoryViewModel(context)
     NavHost(navController, startDestination = Route.Home.route) {
-        composable(Route.Home.route) { backStackEntry ->
-            Route.Home.content(backStackEntry, newStoryViewModel, navController)
+        composable(Route.Home.route) {
+            HomeCompose(viewModel = newStoryViewModel)
         }
-        composable(Route.Top.route) { backStackEntry ->
-            Route.Top.content(backStackEntry, topStoryViewModel, navController)
+        composable(Route.Top.route) {
+            TopCompose(viewModel = topStoryViewModel)
         }
-        composable(Route.Favorite.route) { backStackEntry ->
-            Route.Favorite.content(backStackEntry, favoriteViewModel, navController)
-        }
-        composable(Route.Setting.route) { backStackEntry ->
-            Route.Setting.content(backStackEntry, favoriteViewModel, navController)
+        composable(Route.Favorite.route) {
+            FavoriteCompose(viewModel = favoriteViewModel)
         }
         composable(
             "Content?objectID={objectID}/url={url}/title={title}",

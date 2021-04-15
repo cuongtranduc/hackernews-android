@@ -18,19 +18,19 @@ import com.cuongtd.hackernews.viewmodel.TopStoryViewModel
 sealed class Route(
     val route: String,
     val icon: Int,
-    val content: @Composable (backStackEntry: NavBackStackEntry, viewModel: ViewModel, navController: NavHostController) -> Unit
+    val content: @Composable (backStackEntry: NavBackStackEntry, viewModel: ViewModel) -> Unit
 ) {
     object Home :
         Route(
             "Home",
             R.drawable.ic_home,
-            { backStackEntry, viewModel, navController -> HomeCompose(viewModel as NewStoryViewModel) })
+            { backStackEntry, viewModel -> HomeCompose(viewModel as NewStoryViewModel) })
 
     object Top :
         Route(
             "Top",
             R.drawable.ic_new,
-            { backStackEntry, viewModel, navController -> TopCompose(viewModel as TopStoryViewModel) })
+            { backStackEntry, viewModel -> TopCompose(viewModel as TopStoryViewModel) })
 
 //    object Best :
 //        Route(
@@ -42,10 +42,9 @@ sealed class Route(
         Route(
             "Favorite",
             R.drawable.ic_favorite_filled,
-            { backStackEntry, viewModel, navController ->
+            { backStackEntry, viewModel ->
                 FavoriteCompose(
                     viewModel as FavoriteViewModel,
-                    navController
                 )
             })
 
@@ -53,15 +52,13 @@ sealed class Route(
         Route(
             "Setting",
             R.drawable.ic_setting,
-            { backStackEntry, viewModel, navController -> SettingCompose() })
+            { backStackEntry, viewModel -> SettingCompose() })
 }
 
-val Routes = listOf(
+val BottomRoutes = listOf(
     Route.Home,
     Route.Top,
-//    Route.Best,
     Route.Favorite,
-    Route.Setting,
 )
 
 @Composable

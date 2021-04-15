@@ -4,13 +4,12 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 
 private val DarkColorPalette = darkColors(
     primary = Color(0xFF1da1f2),
@@ -25,14 +24,14 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200,
-    background = Color.White,
+    primary = Color(0xFFD8661B),
+    primaryVariant = Color(0xFFD57333),
+    secondary = Color(0xFF828282),
+    background = Color(0xFFF6F6EF),
     surface = Color.White,
     onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
+    onSecondary = Color(0xFF121212),
+    onBackground = Color(0xFF121212),
     onSurface = Color.Black,
 )
 
@@ -48,8 +47,10 @@ data class Paddings(
 internal val LocalPaddings = staticCompositionLocalOf { Paddings() }
 
 @Composable
-fun HackerNewsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
-    val colors = if (true) {
+fun HackerNewsTheme(isDarkThemeFlow: LiveData<Boolean>, content: @Composable() () -> Unit) {
+    val isDarkTheme by isDarkThemeFlow.observeAsState()
+
+    val colors = if (isDarkTheme!!) {
         DarkColorPalette
     } else {
         LightColorPalette

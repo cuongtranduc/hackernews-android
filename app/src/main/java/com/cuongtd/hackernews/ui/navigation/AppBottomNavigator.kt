@@ -21,7 +21,7 @@ fun AppBottomNavigator(navController: NavHostController) {
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.background
     ) {
-        Routes.forEach { item ->
+        BottomRoutes.forEach { item ->
             BottomNavigationItem(
                 icon = {
                     Icon(

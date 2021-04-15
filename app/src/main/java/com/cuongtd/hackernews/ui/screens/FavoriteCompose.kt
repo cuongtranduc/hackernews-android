@@ -20,11 +20,11 @@ import com.cuongtd.hackernews.viewmodel.FavoriteViewModel
 import androidx.compose.runtime.*
 
 @Composable
-fun FavoriteCompose(viewModel: FavoriteViewModel, navController: NavController) {
-    val stories: List<Story> by viewModel.favoriteStories.observeAsState(listOf())
+fun FavoriteCompose(viewModel: FavoriteViewModel) {
+    val stories: List<Story>? by viewModel.favoriteStories.observeAsState()
     val listState = rememberLazyListState()
 
-    if (stories.size <= 0) {
+    if (stories!!.size <= 0) {
         Column(
             modifier = Modifier.fillMaxWidth().fillMaxHeight(),
             verticalArrangement = Arrangement.Center,
@@ -38,7 +38,7 @@ fun FavoriteCompose(viewModel: FavoriteViewModel, navController: NavController) 
         }
     } else {
         LazyColumn(state = listState) {
-            items(items = stories) { story ->
+            items(items = stories!!) { story ->
                 FavoriteStoryCompose(story)
             }
         }

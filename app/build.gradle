@@ -73,9 +73,11 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+
+    implementation "androidx.datastore:datastore-preferences:$preference_datastore_version"
+    implementation "androidx.datastore:datastore-preferences-core:$preference_datastore_version"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.github.marlonlom:timeago:4.0.3'

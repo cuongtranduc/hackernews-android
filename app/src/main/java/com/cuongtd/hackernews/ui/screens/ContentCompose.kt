@@ -46,7 +46,7 @@ fun ContentCompose(
                 modifier = Modifier.fillMaxWidth(),
                 backgroundColor = Color.White,
                 progress = progress,
-                color = MaterialTheme.colors.primary
+                color = Color(0xFF1da1f2)
             )
         }
         Column(modifier = Modifier.weight(1F)) {

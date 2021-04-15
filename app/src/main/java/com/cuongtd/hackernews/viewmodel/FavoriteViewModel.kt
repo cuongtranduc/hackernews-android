@@ -15,7 +15,7 @@ class FavoriteViewModel(context: Context) : ViewModel() {
     private val storyRepository = StoryRepository(context)
 
     private var _favoriteStories =
-        MutableLiveData<List<StoryEntity>>()
+        MutableLiveData<List<StoryEntity>>(emptyList())
     val favoriteStories: LiveData<List<StoryEntity>>
         get() = _favoriteStories
 

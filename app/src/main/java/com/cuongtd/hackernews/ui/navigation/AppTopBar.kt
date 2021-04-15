@@ -3,10 +3,7 @@ package com.cuongtd.hackernews.ui.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -32,6 +29,8 @@ import com.cuongtd.hackernews.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.font.FontWeight
+import java.util.*
 
 @Composable
 fun AppTopBar(
@@ -63,13 +62,20 @@ fun MainTopAppBar(
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.primaryVariant,
         title = {
-            Text(
-                text = currentRoute.toString(),
-                style = MaterialTheme.typography.caption,
-                fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
-            )
+            Column() {
+                Text(
+                    text = currentRoute.toString(),
+                    style = MaterialTheme.typography.caption,
+                    fontSize = 18.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
+//                Text(
+//                    text = "- Last updated 3 minutes ago",
+//                    fontWeight = FontWeight.W400,
+//                    fontSize = 14.sp,
+//                )
+            }
         },
         actions = {
             Column(modifier = Modifier.clickable(
@@ -134,8 +140,8 @@ fun ContentTopAppBar(currentRoute: String?, navController: NavHostController) {
                 )
             }
         },
-//        actions = {
-//            Column(modifier = Modifier.width(30.dp)) {}
-//        }
+        actions = {
+            Column(modifier = Modifier.width(30.dp)) {}
+        }
     )
 }

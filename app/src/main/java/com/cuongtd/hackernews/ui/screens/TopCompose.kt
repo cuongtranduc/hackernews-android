@@ -10,10 +10,13 @@ import com.cuongtd.hackernews.viewmodel.TopStoryViewModel
 fun TopCompose(viewModel: TopStoryViewModel) {
     val disableLoadingMore: Boolean by viewModel.disableLoadingMore.observeAsState(true)
     val isLoadingMore: Boolean by viewModel.disableLoadingMore.observeAsState(false)
+    val isRefreshing: Boolean by viewModel.disableLoadingMore.observeAsState(false)
 
-    fun getStories() {
-        viewModel.getStories()
-    }
-
-    StoryListCompose(viewModel.stories, ::getStories, disableLoadingMore, isLoadingMore)
-}
+    StoryListCompose(
+        viewModel.stories,
+        { viewModel.getStories() },
+        disableLoadingMore,
+        isLoadingMore,
+        isRefreshing,
+        { viewModel.refreshStories() }
+    )}

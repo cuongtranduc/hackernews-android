@@ -79,6 +79,8 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:$preference_datastore_version"
     implementation "androidx.datastore:datastore-preferences-core:$preference_datastore_version"
 
+    implementation 'com.puculek.pulltorefresh:pull-to-refresh-compose:1.0.5'
+
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.github.marlonlom:timeago:4.0.3'
 }

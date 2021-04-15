@@ -28,50 +28,52 @@ fun getDomainName(url: String?): String {
 @Composable
 fun StoryCompose(story: Story) {
     val navController = AppNavController.current
-    Column(modifier = Modifier.clickable {
-        navController.navigate("Content?objectID=${story.objectID}/url=${story.url}/title=${story.title}")
-    }) {
-        Column(
-            modifier = Modifier.padding(
-                horizontal = LocalPaddings.current.defaultPadding,
-                vertical = LocalPaddings.current.smallPadding
-            )
-        ) {
-            Text(
-                text = story.title,
-                style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.onSurface,
-            )
-            Row(modifier = Modifier.padding(top = 2.dp)) {
+    if (story.url != null) {
+        Column(modifier = Modifier.clickable {
+            navController.navigate("Content?objectID=${story.objectID}/url=${story.url}/title=${story.title}")
+        }) {
+            Column(
+                modifier = Modifier.padding(
+                    horizontal = LocalPaddings.current.defaultPadding,
+                    vertical = LocalPaddings.current.smallPadding
+                )
+            ) {
                 Text(
-                    text = story.points.toString() + " points",
+                    text = story.title,
+                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colors.onSurface,
+                )
+                Row(modifier = Modifier.padding(top = 2.dp)) {
+                    Text(
+                        text = story.points.toString() + " points",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.secondary,
+                        modifier = Modifier.padding(end = LocalPaddings.current.smallPadding)
+                    )
+                    Text(
+                        text = story.numComments.toString() + " comments",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.secondary,
+                        modifier = Modifier.padding(end = 5.dp)
+                    )
+                    Text(
+                        text = Utils.formatTimeAgo(story.createdAt),
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+                Text(
+                    text = "Source: ${getDomainName(story.url)}",
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.secondary,
-                    modifier = Modifier.padding(end = LocalPaddings.current.smallPadding)
-                )
-                Text(
-                    text = story.numComments.toString() + " comments",
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.secondary,
-                    modifier = Modifier.padding(end = 5.dp)
-                )
-                Text(
-                    text = Utils.formatTimeAgo(story.createdAt),
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.secondary
                 )
             }
-            Text(
-                text = "Source: ${getDomainName(story.url)}",
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.secondary,
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(0.5.dp)
+                    .background(MaterialTheme.colors.secondary)
             )
         }
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(0.5.dp)
-                .background(MaterialTheme.colors.secondary)
-        )
     }
 }

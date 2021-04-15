@@ -14,18 +14,20 @@ class TopStoryViewModel(context: Context) : ViewModel() {
     private var page = 0;
 
     var isLoadingMore = MutableLiveData(false)
+    var isRefreshing = MutableLiveData(false)
     var disableLoadingMore = MutableLiveData(false)
 
     private val _stories = MutableLiveData<List<Story>>(listOf())
     val stories: LiveData<List<Story>>
         get() = _stories
 
-    fun updateStories(newStories: List<Story>) {
-        _stories.value = _stories.value!!.plus(newStories)
+    private fun updateStories(newStories: List<Story>) {
+        _stories.value = if (page == 0) newStories else _stories.value!!.plus(newStories)
         if (newStories.isEmpty()) {
             disableLoadingMore.value = true
         }
         isLoadingMore.value = false
+        isRefreshing.value = false
     }
 
     fun getStories() {
@@ -37,6 +39,14 @@ class TopStoryViewModel(context: Context) : ViewModel() {
         }
         viewModelScope.launch {
             storyRepository.getTopStories(::updateStories, page++)
+        }
+    }
+
+    fun refreshStories() {
+        page = 0
+        isRefreshing.value = true
+        viewModelScope.launch {
+            storyRepository.getTopStories(::updateStories, page)
         }
     }
 

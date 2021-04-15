@@ -9,24 +9,29 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import com.cuongtd.hackernews.model.Story
+import androidx.compose.runtime.setValue
+import com.puculek.pulltorefresh.PullToRefresh
 
 
 @Composable
 fun StoryListCompose(
     stories: LiveData<List<Story>>,
-    getTopStories: () -> Unit,
+    getStories: () -> Unit,
     disableLoadingMore: Boolean,
-    isLoadingMore: Boolean
+    isLoadingMore: Boolean,
+    isRefreshing: Boolean,
+    refreshStories: () -> Unit,
 ) {
     val stories: List<Story>? by stories.observeAsState()
     val listState = rememberLazyListState()
 
-    //TODO: fixbug loading
     if (stories!!.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -40,18 +45,25 @@ fun StoryListCompose(
             )
         }
     } else {
-        LazyColumn(state = listState, horizontalAlignment = Alignment.CenterHorizontally) {
-            itemsIndexed(items = stories!!) { index, story ->
-                StoryCompose(story)
-                if (index == stories!!.lastIndex && !disableLoadingMore && !isLoadingMore) {
-                    getTopStories()
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(vertical = 5.dp)
-                            .size(24.dp),
-                        color = MaterialTheme.colors.onBackground,
-                        strokeWidth = 2.dp
-                    )
+        PullToRefresh(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                refreshStories()
+            }
+        ) {
+            LazyColumn(state = listState, horizontalAlignment = Alignment.CenterHorizontally) {
+                itemsIndexed(items = stories!!) { index, story ->
+                    StoryCompose(story)
+                    if (index == stories!!.lastIndex && !disableLoadingMore && !isLoadingMore) {
+                        getStories()
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(vertical = 5.dp)
+                                .size(24.dp),
+                            color = MaterialTheme.colors.onBackground,
+                            strokeWidth = 2.dp
+                        )
+                    }
                 }
             }
         }

@@ -98,7 +98,7 @@ fun ContentCompose(
                             .clickable {
                                 viewModel.deleteFavoriteStory(storyInRoom?.value!!)
                             },
-                        tint = MaterialTheme.colors.primary
+                        tint = Color(0xFFFBBC05)
                     )
                 } else {
                     Icon(

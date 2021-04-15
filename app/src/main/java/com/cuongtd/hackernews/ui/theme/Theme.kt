@@ -1,5 +1,6 @@
 package com.cuongtd.hackernews.ui.theme
 
+import android.view.Window
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -7,12 +8,13 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFF1da1f2),
+    primary = Color(0xFFD8661B),
     primaryVariant = Color(0xFF121212), // 25292d
     secondary = Color(0xFF68676c),
     background = Color.Black,
@@ -47,7 +49,7 @@ data class Paddings(
 internal val LocalPaddings = staticCompositionLocalOf { Paddings() }
 
 @Composable
-fun HackerNewsTheme(isDarkThemeFlow: LiveData<Boolean>, content: @Composable() () -> Unit) {
+fun HackerNewsTheme(isDarkThemeFlow: LiveData<Boolean>, window: Window, content: @Composable() () -> Unit) {
     val isDarkTheme by isDarkThemeFlow.observeAsState()
 
     val colors = if (isDarkTheme!!) {
@@ -55,6 +57,9 @@ fun HackerNewsTheme(isDarkThemeFlow: LiveData<Boolean>, content: @Composable() (
     } else {
         LightColorPalette
     }
+
+    // change statusbar background color
+    window.statusBarColor = colors.primaryVariant.toArgb()
 
     CompositionLocalProvider(
         LocalPaddings provides Paddings()

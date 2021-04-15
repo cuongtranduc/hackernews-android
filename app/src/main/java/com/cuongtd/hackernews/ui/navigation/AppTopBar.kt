@@ -68,7 +68,7 @@ fun MainTopAppBar(
                 style = MaterialTheme.typography.caption,
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Start
             )
         },
         actions = {

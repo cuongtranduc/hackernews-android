@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val context = this.applicationContext as Context
-
         val isDarkThemeKey = booleanPreferencesKey("is_dark_theme")
         val isDarkThemeFlow = runBlocking {
             context.dataStore.data
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            HackerNewsTheme(isDarkTheme) {
+            HackerNewsTheme(isDarkTheme, window = window) {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     MainScreen(context, isDarkTheme, ::changeTheme)

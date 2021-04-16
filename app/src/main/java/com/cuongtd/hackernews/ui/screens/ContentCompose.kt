@@ -90,7 +90,7 @@ fun ContentCompose(
 //                )
             }
             Row(modifier = Modifier.padding(end = 25.dp)) {
-                if (isFavorite == true) {
+                if (isFavorite) {
                     Icon(
                         imageVector = Icons.Filled.Star,
                         tint = MaterialTheme.colors.primaryVariant,

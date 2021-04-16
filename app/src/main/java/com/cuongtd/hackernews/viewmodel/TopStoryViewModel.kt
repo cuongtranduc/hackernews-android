@@ -1,10 +1,6 @@
 package com.cuongtd.hackernews.viewmodel
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import androidx.core.os.HandlerCompat.postDelayed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,15 +12,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.concurrent.schedule
 
-val ONE_MIN: Long = 60000 // in millisecond
+const val ONE_MIN: Long = 60000 // in millisecond
 
 class TopStoryViewModel(context: Context) : ViewModel() {
     private val storyRepository = StoryRepository(context)
     private var page = 0
     private var lastUpdateTime = Date()
-    var repeatSchedueFun: Job
+    private var repeatSchedueFun: Job
 
     var timeSinceLastUpdated = MutableLiveData(0)
     var isLoadingMore = MutableLiveData(false)

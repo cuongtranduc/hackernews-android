@@ -30,7 +30,7 @@ sealed class Route(
         Route(
             "Top",
             R.drawable.ic_new,
-            { backStackEntry, viewModel -> TopCompose(viewModel as TopStoryViewModel) })
+            { _, viewModel -> TopCompose(viewModel as TopStoryViewModel) })
 
 //    object Best :
 //        Route(

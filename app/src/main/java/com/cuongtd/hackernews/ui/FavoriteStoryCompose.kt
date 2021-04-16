@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.navigate
 import com.cuongtd.hackernews.model.room.Story
-import com.cuongtd.hackernews.ui.story.getDomainName
 import com.cuongtd.hackernews.ui.theme.LocalPaddings
+import com.cuongtd.hackernews.utilities.Helper
 
 @Composable
 fun FavoriteStoryCompose(story: Story) {
@@ -31,7 +31,7 @@ fun FavoriteStoryCompose(story: Story) {
                 color = MaterialTheme.colors.onSurface,
             )
             Text(
-                text = "Source: ${getDomainName(story.url)}",
+                text = "Source: ${Helper.getDomainName(story.url)}",
                 style = MaterialTheme.typography.body1,
                 color = MaterialTheme.colors.secondary,
             )

@@ -1,9 +1,6 @@
 package com.cuongtd.hackernews.viewmodel
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +16,7 @@ class NewStoryViewModel(context: Context) : ViewModel() {
     private val storyRepository = StoryRepository(context)
     private var page = 0
     private var lastUpdateTime = Date()
-    var repeatSchedueFun: Job
+    private var repeatSchedueFun: Job
 
     var timeSinceLastUpdated = MutableLiveData(0)
     var isLoadingMore = MutableLiveData(false)

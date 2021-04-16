@@ -45,8 +45,4 @@ class FavoriteViewModel(context: Context) : ViewModel() {
             }
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

@@ -46,7 +46,7 @@ fun AppTopBar(
         else topStoryViewModel.timeSinceLastUpdated.observeAsState()
 
     if (isContentCompose == true) {
-        ContentTopAppBar(currentRoute = currentRoute, navController)
+        ContentTopAppBar(navController)
     } else {
         MainTopAppBar(
             currentRoute = currentRoute,
@@ -119,7 +119,7 @@ fun MainTopAppBar(
 }
 
 @Composable
-fun ContentTopAppBar(currentRoute: String?, navController: NavHostController) {
+fun ContentTopAppBar(navController: NavHostController) {
     TopAppBar(
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.primaryVariant,

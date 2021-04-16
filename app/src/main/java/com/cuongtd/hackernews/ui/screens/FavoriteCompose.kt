@@ -23,7 +23,7 @@ fun FavoriteCompose(viewModel: FavoriteViewModel) {
     val stories: List<Story>? by viewModel.favoriteStories.observeAsState()
     val listState = rememberLazyListState()
 
-    if (stories!!.size <= 0) {
+    if (stories!!.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxWidth().fillMaxHeight(),
             verticalArrangement = Arrangement.Center,

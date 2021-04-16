@@ -1,18 +1,32 @@
 package com.cuongtd.hackernews.viewmodel
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import androidx.core.os.HandlerCompat.postDelayed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cuongtd.hackernews.model.Story
 import com.cuongtd.hackernews.repository.StoryRepository
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.concurrent.schedule
+
+val ONE_MIN: Long = 60000 // in millisecond
 
 class TopStoryViewModel(context: Context) : ViewModel() {
     private val storyRepository = StoryRepository(context)
-    private var page = 0;
+    private var page = 0
+    private var lastUpdateTime = Date()
+    var repeatSchedueFun: Job
 
+    var timeSinceLastUpdated = MutableLiveData(0)
     var isLoadingMore = MutableLiveData(false)
     var isRefreshing = MutableLiveData(false)
     var disableLoadingMore = MutableLiveData(false)
@@ -22,12 +36,21 @@ class TopStoryViewModel(context: Context) : ViewModel() {
         get() = _stories
 
     private fun updateStories(newStories: List<Story>) {
-        _stories.value = if (page == 0) newStories else _stories.value!!.plus(newStories)
+        if (page == 0) {
+            _stories.value = newStories
+
+            //reset last updated time
+            timeSinceLastUpdated.value = 0
+            lastUpdateTime = Date()
+
+            isRefreshing.value = false
+        } else { // load more
+            _stories.value = _stories.value!!.plus(newStories)
+            isLoadingMore.value = false
+        }
         if (newStories.isEmpty()) {
             disableLoadingMore.value = true
         }
-        isLoadingMore.value = false
-        isRefreshing.value = false
     }
 
     fun getStories() {
@@ -50,11 +73,24 @@ class TopStoryViewModel(context: Context) : ViewModel() {
         }
     }
 
+    private fun scheduleTask(): Job {
+        return viewModelScope.launch {
+            while (isActive) {
+                val lastTime = ((Date().time - lastUpdateTime.time) / ONE_MIN).toInt()
+                timeSinceLastUpdated.postValue(lastTime)
+                delay(ONE_MIN)
+            }
+        }
+    }
+
     init {
         getStories()
+        //start the loop
+        repeatSchedueFun = scheduleTask()
     }
 
     override fun onCleared() {
         super.onCleared()
+        repeatSchedueFun.cancel()
     }
 }

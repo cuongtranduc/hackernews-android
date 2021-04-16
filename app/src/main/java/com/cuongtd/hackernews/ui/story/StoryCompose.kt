@@ -8,15 +8,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.navigate
 import com.cuongtd.hackernews.Utils
 import com.cuongtd.hackernews.model.Story
 import com.cuongtd.hackernews.ui.AppNavController
 import com.cuongtd.hackernews.ui.theme.LocalPaddings
 import java.net.URI
-import java.util.prefs.Preferences
 
 fun getDomainName(url: String?): String {
     if (url == null) return ""

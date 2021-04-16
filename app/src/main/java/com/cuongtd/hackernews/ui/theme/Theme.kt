@@ -1,7 +1,6 @@
 package com.cuongtd.hackernews.ui.theme
 
 import android.view.Window
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -14,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFFD8661B),
+    primary = Color(0xFFD57333),
     primaryVariant = Color(0xFF121212), // 25292d
     secondary = Color(0xFF68676c),
     background = Color.Black,
@@ -32,7 +31,7 @@ private val LightColorPalette = lightColors(
     background = Color(0xFFF6F6EF),
     surface = Color.White,
     onPrimary = Color.White,
-    onSecondary = Color(0xFF121212),
+    onSecondary = Color(0xFFD57333),
     onBackground = Color(0xFF121212),
     onSurface = Color.Black,
 )

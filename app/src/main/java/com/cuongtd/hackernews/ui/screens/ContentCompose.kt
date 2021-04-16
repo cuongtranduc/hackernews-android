@@ -12,7 +12,6 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -43,7 +42,9 @@ fun ContentCompose(
     Column(modifier = Modifier.fillMaxSize()) {
         if (progress != 1f) {
             LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp),
                 backgroundColor = Color.White,
                 progress = progress,
                 color = Color(0xFF1da1f2)
@@ -92,17 +93,18 @@ fun ContentCompose(
                 if (isFavorite == true) {
                     Icon(
                         imageVector = Icons.Filled.Star,
+                        tint = MaterialTheme.colors.primaryVariant,
                         contentDescription = "Localized description",
                         modifier = Modifier
                             .size(24.dp)
                             .clickable {
                                 viewModel.deleteFavoriteStory(storyInRoom?.value!!)
                             },
-                        tint = Color(0xFFFBBC05)
                     )
                 } else {
                     Icon(
-                        imageVector = Icons.Outlined.Star,
+                        imageVector = Icons.Filled.Star,
+                        tint = MaterialTheme.colors.secondary,
                         contentDescription = "Localized description",
                         modifier = Modifier
                             .size(24.dp)

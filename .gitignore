@@ -4,6 +4,7 @@
 .DS_Store
 /build
 /.idea
+/app/release
 /captures
 .externalNativeBuild
 .cxx

@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import com.cuongtd.hackernews.ui.FavoriteCompose
 import com.cuongtd.hackernews.ui.HomeCompose
-import com.cuongtd.hackernews.ui.screens.ContentCompose
+import com.cuongtd.hackernews.ui.screens.webview.ContentCompose
 import com.cuongtd.hackernews.viewmodel.FavoriteViewModel
 import com.cuongtd.hackernews.viewmodel.NewStoryViewModel
 import com.cuongtd.hackernews.viewmodel.TopStoryViewModel

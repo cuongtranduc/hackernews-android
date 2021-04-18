@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cuongtd.hackernews.model.Story
 import com.cuongtd.hackernews.repository.StoryRepository
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 const val ONE_MIN: Long = 60000 // in millisecond
@@ -19,7 +16,7 @@ class TopStoryViewModel(context: Context) : ViewModel() {
     private val storyRepository = StoryRepository(context)
     private var page = 0
     private var lastUpdateTime = Date()
-    private var repeatSchedueFun: Job
+    private var repeatScheduleFun: Job
 
     var timeSinceLastUpdated = MutableLiveData(0)
     var isLoadingMore = MutableLiveData(false)
@@ -31,20 +28,22 @@ class TopStoryViewModel(context: Context) : ViewModel() {
         get() = _stories
 
     private fun updateStories(newStories: List<Story>) {
-        if (page == 0) {
-            _stories.value = newStories
+        viewModelScope.launch(Dispatchers.Main) {
+            if (page == 0) {
+                _stories.value = newStories
 
-            //reset last updated time
-            timeSinceLastUpdated.value = 0
-            lastUpdateTime = Date()
+                //reset last updated time
+                timeSinceLastUpdated.value = 0
+                lastUpdateTime = Date()
 
-            isRefreshing.value = false
-        } else { // load more
-            _stories.value = _stories.value!!.plus(newStories)
-            isLoadingMore.value = false
-        }
-        if (newStories.isEmpty()) {
-            disableLoadingMore.value = true
+                isRefreshing.value = false
+            } else { // load more
+                _stories.value = _stories.value!!.plus(newStories)
+                isLoadingMore.value = false
+            }
+            if (newStories.isEmpty()) {
+                disableLoadingMore.value = true
+            }
         }
     }
 
@@ -55,7 +54,7 @@ class TopStoryViewModel(context: Context) : ViewModel() {
         if (page >= 1) {
             isLoadingMore.value = true
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             storyRepository.getTopStories(::updateStories, page++)
         }
     }
@@ -63,13 +62,13 @@ class TopStoryViewModel(context: Context) : ViewModel() {
     fun refreshStories() {
         page = 0
         isRefreshing.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             storyRepository.getTopStories(::updateStories, page)
         }
     }
 
     private fun scheduleTask(): Job {
-        return viewModelScope.launch {
+        return viewModelScope.launch(Dispatchers.Default) {
             while (isActive) {
                 val lastTime = ((Date().time - lastUpdateTime.time) / ONE_MIN).toInt()
                 timeSinceLastUpdated.postValue(lastTime)
@@ -81,11 +80,11 @@ class TopStoryViewModel(context: Context) : ViewModel() {
     init {
         getStories()
         //start the loop
-        repeatSchedueFun = scheduleTask()
+        repeatScheduleFun = scheduleTask()
     }
 
     override fun onCleared() {
         super.onCleared()
-        repeatSchedueFun.cancel()
+        repeatScheduleFun.cancel()
     }
 }

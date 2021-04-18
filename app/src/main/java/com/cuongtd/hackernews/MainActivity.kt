@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun Context.isDarkThemeOn(): Boolean {
+    private fun Context.isDarkThemeOn(): Boolean {
         return resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
     }
@@ -67,11 +67,11 @@ class MainActivity : ComponentActivity() {
         if (doubleBackToExitPressedOnce) {
             moveTaskToBack(true)
             return
+        } else {
+            super.onBackPressed()
         }
 
         doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
-
         Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 }

@@ -1,11 +1,14 @@
 package com.cuongtd.hackernews.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.cuongtd.hackernews.model.Result
 import com.cuongtd.hackernews.model.Story
 import com.cuongtd.hackernews.model.room.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,54 +38,60 @@ object RetrofitBuilder {
             .build() //Doesn't require the adapter
     }
 
-    val apiService = getRetrofit().create(ApiService::class.java)
+    val apiService: ApiService = getRetrofit().create(ApiService::class.java)
 }
 
 
 class StoryRepository(context: Context) {
     private val apiService = RetrofitBuilder.apiService
-    val db = Room.databaseBuilder(
+    private val db = Room.databaseBuilder(
         context,
         AppDatabase::class.java, "story"
-    )
-//        .allowMainThreadQueries()
-        .build()
-    val storyDao = db.storyDao()
+    ).build()
+    private val storyDao = db.storyDao()
 
-    fun getNewStories(updateStories: (List<Story>) -> Unit, page: Int) {
+    suspend fun getNewStories(updateStories: (List<Story>) -> Unit, page: Int) {
         val mlc: Call<Result> = apiService.getNewStories(page.toString())
-        mlc.enqueue(object : Callback<Result> {
-            override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
-                if (response?.body() != null) {
-                    updateStories(response?.body()!!.hits)
+        withContext(Dispatchers.IO) {
+            mlc.enqueue(object : Callback<Result> {
+                override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
+                    if (response?.body() != null) {
+                        updateStories(response?.body()!!.hits)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Result>?, t: Throwable?) {
-            }
-        })
+                override fun onFailure(call: Call<Result>?, t: Throwable?) {
+                }
+            })
+        }
     }
 
-    fun getTopStories(updateStories: (List<Story>) -> Unit, page: Int) {
+    suspend fun getTopStories(updateStories: (List<Story>) -> Unit, page: Int) {
         val mlc: Call<Result> = apiService.getTopStories(page.toString())
-        mlc.enqueue(object : Callback<Result> {
-            override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
-                if (response?.body() != null) {
-                    updateStories(response?.body()!!.hits)
+        withContext(Dispatchers.IO) {
+            mlc.enqueue(object : Callback<Result> {
+                override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
+                    if (response?.body() != null) {
+                        updateStories(response?.body()!!.hits)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Result>?, t: Throwable?) {
-            }
-        })
+                override fun onFailure(call: Call<Result>?, t: Throwable?) {
+                }
+            })
+        }
     }
 
-    fun getAllFavoriteStories(): LiveData<List<StoryEntity>> {
-        return storyDao.getAll()
+    suspend fun getAllFavoriteStories(): LiveData<List<StoryEntity>> {
+        return withContext(Dispatchers.IO) {
+            storyDao.getAll()
+        }
     }
 
     fun getSingle(id: String): LiveData<StoryEntity>? {
+//        return withContext(Dispatchers.IO) {
         return storyDao.getSingle(id)
+//        }
     }
 
     fun addFavoriteStory(story: StoryEntity) {

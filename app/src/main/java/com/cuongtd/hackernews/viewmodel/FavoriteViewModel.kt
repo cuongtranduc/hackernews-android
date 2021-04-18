@@ -20,26 +20,23 @@ class FavoriteViewModel(context: Context) : ViewModel() {
         get() = _favoriteStories
 
     fun addFavoriteStory(story: StoryEntity) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                storyRepository.addFavoriteStory(story)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            storyRepository.addFavoriteStory(story)
         }
     }
 
     fun deleteFavoriteStory(story: StoryEntity) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                storyRepository.deleteFavoriteStory(story)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            storyRepository.deleteFavoriteStory(story)
         }
     }
 
     fun getFavoriteById(id: String): LiveData<StoryEntity>? =
         storyRepository.getSingle(id)
 
+
     init {
-        viewModelScope.launch {
+        viewModelScope.launch() {
             storyRepository.getAllFavoriteStories().observeForever {
                 _favoriteStories.value = it
             }

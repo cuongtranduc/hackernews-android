@@ -6,8 +6,8 @@
     <style name="Theme.HackerNews.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">#D57333</item>
-        <item name="android:windowBackground">#F6F6EF</item>
+        <item name="android:statusBarColor">@color/orange_600</item>
+        <item name="android:windowBackground">@color/orange_100</item>
     </style>
 
     <style name="Theme.HackerNews.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -1,7 +1,6 @@
 package com.cuongtd.hackernews.utilities
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import java.net.URI
 import java.text.SimpleDateFormat

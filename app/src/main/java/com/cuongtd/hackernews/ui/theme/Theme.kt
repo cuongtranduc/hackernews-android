@@ -33,7 +33,7 @@ private val LightColorPalette = lightColors(
     onPrimary = Color.White,
     onSecondary = Color(0xFFD57333),
     onBackground = Color(0xFF121212),
-    onSurface = Color.Black,
+    onSurface = Color(0xFF121212),
 )
 
 @Immutable
